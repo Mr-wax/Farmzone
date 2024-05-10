@@ -1,3 +1,17 @@
+import User from '../models/usermodel.js'
+import { signInValidator, signUpValidator } from '../validators/authvalidator.js'
+import cryptoHash from 'crypto';
+
+function hashValue(value) {
+    const hash = cryptoHash.createHash('sha256');
+    hash.update(value);
+    return hash.digest('hex')
+}
+
+function comparePasswords(inputPassword, hashedPassword) {
+    return hashValue(inputPassword)===hashedPassword
+};
+
 export const signUp = async (req, res, next) => {
     const registerResults = signUpValidator.safeParse(req.body)
     if(!registerResults) {
@@ -29,14 +43,11 @@ export const signUp = async (req, res, next) => {
                 name,
                 userName,
                 password: encrytion,
-                //confirmPassword: encrytion,
                 email,
                 phoneNumber,
                 bio,
                 gender
             })
-
-        
             await newUser.save()
             res.status(200).json({message:'User registered succesfully', newUser})
             console.log('User registered succesfully', newUser);

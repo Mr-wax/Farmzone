@@ -10,7 +10,6 @@ export const signUpValidator = z.object({
       .regex(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[!@#$%^&])[A-Za-z\d!@#$%^&]+$/, {
         message: 'Password should contain at least one uppercase letter, one lowercase letter, one number, and one special character',
       }),
-    confirmPassword: z.string(),
     email: z.string().min(3).max(30),
     phoneNumber: z.string().min(10).max(11),
   }).required({ message: 'Please enter all the required fields' });
